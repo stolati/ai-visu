@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 
-const Tooltip = ({ word, text }) => {
+interface TooltipProps {
+  word: ReactNode;
+  text: string;
+}
+
+const Tooltip: React.FC<TooltipProps> = ({ word, text }) => {
   const [show, setShow] = useState(false);
 
   return (

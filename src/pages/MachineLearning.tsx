@@ -1,6 +1,7 @@
 import React from 'react';
 import ConceptSkeleton from '../components/ConceptSkeleton';
 import Tooltip from '../components/Tooltip';
+import SortingMachine from '../components/interactions/SortingMachine';
 
 const MachineLearning = () => {
   return (
@@ -10,8 +11,7 @@ const MachineLearning = () => {
       <ConceptSkeleton 
         title={<>Explanation of general <Tooltip word="machine learning" text="A subset of AI where systems learn from data." /></>}
         description="An overview of how computers learn patterns directly from data instead of being explicitly programmed."
-        visualizationDesc="An animation of a machine sorting apples and oranges; initially it guesses randomly, but as it sees more examples, internal dials turn, and it sorts them perfectly."
-        interactiveDesc="A slider to control the 'number of examples seen', where the sorting becomes visibly more accurate as the slider increases."
+        sandboxComponent={<SortingMachine />}
       />
 
       <ConceptSkeleton 
