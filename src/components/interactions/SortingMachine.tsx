@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Matter from 'matter-js';
+import DriftSlider from './DriftSlider';
 
 const SortingMachine: React.FC = () => {
   const [examplesSeen, setExamplesSeen] = useState<number>(0);
@@ -173,17 +174,16 @@ const SortingMachine: React.FC = () => {
         <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-primary)', fontWeight: 600 }}>
           Examples Seen (Training Data): {examplesSeen}
         </label>
-        <input 
-          type="range" 
-          min="0" 
-          max="100" 
+        <DriftSlider 
+          min={0} 
+          max={100} 
           value={examplesSeen}
-          onChange={(e) => setExamplesSeen(parseInt(e.target.value))}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setExamplesSeen(parseInt(e.target.value))}
           style={{ width: '100%', accentColor: 'var(--accent-color)', cursor: 'pointer' }}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
           <span>Random Guesses (0)</span>
-          <span>100% Accurate (100)</span>
+          <span>Max Data (100)</span>
         </div>
       </div>
 
@@ -223,7 +223,7 @@ const SortingMachine: React.FC = () => {
                   d={(() => {
                     let d = "M 0 100 ";
                     for (let x = 0; x <= 100; x += 5) {
-                        const acc = 0.5 + 0.5 * (1 - Math.exp(-x / 30));
+                        const acc = 0.5 + 0.48 * (1 - Math.exp(-x / 30));
                         const y = 100 - ((acc - 0.5) / 0.5 * 100);
                         d += `L ${x} ${y} `;
                     }
@@ -236,7 +236,7 @@ const SortingMachine: React.FC = () => {
                 
                 {/* Interactive Dynamic Marker */}
                 {(() => {
-                  const markerAcc = 0.5 + 0.5 * (1 - Math.exp(-examplesSeen / 30));
+                  const markerAcc = 0.5 + 0.48 * (1 - Math.exp(-examplesSeen / 30));
                   const markerY = 100 - ((markerAcc - 0.5) / 0.5 * 100);
                   
                   return (

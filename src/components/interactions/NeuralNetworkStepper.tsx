@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import DriftSlider from './DriftSlider';
 
 const LAYER_Y_POSITIONS = [15, 40, 65, 90];
 const ARCHITECTURE = [4, 4, 4, 2];
@@ -83,12 +84,11 @@ const NeuralNetworkStepper: React.FC = () => {
               <span>Input Data Mixture</span>
               <span style={{ color: sliderValue >= 50 ? '#f97316' : 'var(--text-secondary)' }}>Orange 🍊</span>
             </label>
-            <input 
-              type="range" 
-              min="0" 
-              max="100" 
+            <DriftSlider 
+              min={0} 
+              max={100} 
               value={sliderValue}
-              onChange={(e) => setSliderValue(parseInt(e.target.value))}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSliderValue(parseInt(e.target.value))}
               style={{ width: '100%', accentColor: 'var(--accent-color)', cursor: 'pointer' }}
             />
           </div>
