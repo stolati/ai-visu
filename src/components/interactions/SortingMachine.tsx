@@ -19,8 +19,8 @@ const SortingMachine: React.FC = () => {
 
     const engine = Matter.Engine.create();
     
-    // Enable slight gravity
-    engine.world.gravity.y = 1;
+    // Enable slight gravity (lowered to slow down simulation)
+    engine.world.gravity.y = 0.4;
 
     const cw = sceneRef.current.clientWidth;
     const ch = sceneRef.current.clientHeight;
@@ -74,6 +74,7 @@ const SortingMachine: React.FC = () => {
         const ball = Matter.Bodies.circle(cw * 0.5 + (Math.random() * 40 - 20), -150 - (i * 12), 7, {
             restitution: 0.4,
             friction: 0.005,
+            frictionAir: 0.015,
             density: 0.04,
             render: { fillStyle: isApple ? '#ef4444' : '#f97316' },
             label: isApple ? 'apple' : 'orange'
@@ -90,8 +91,8 @@ const SortingMachine: React.FC = () => {
     // Physics Loop & Business Logic Hooks
     Matter.Events.on(engine, 'beforeUpdate', () => {
         // Spin gears continuously
-         Matter.Body.setAngle(gear1, gear1.angle + 0.03);
-         Matter.Body.setAngle(gear2, gear2.angle - 0.03);
+         Matter.Body.setAngle(gear1, gear1.angle + 0.015);
+         Matter.Body.setAngle(gear2, gear2.angle - 0.015);
 
          // --- Anti-Jam Forcing Function ---
          const now = Date.now();
@@ -112,7 +113,8 @@ const SortingMachine: React.FC = () => {
              
              if (lowestBall) {
                  // Definitively force-pull the trapped ball straight down through the gap
-                 Matter.Body.setVelocity(lowestBall as Matter.Body, { x: 0, y: 12 });
+                 // (lowered from 12 to 4 to match the new slower simulation feel)
+                 Matter.Body.setVelocity(lowestBall as Matter.Body, { x: 0, y: 4 });
              }
              lastForceTimeRef.current = now;
          }
@@ -133,7 +135,7 @@ const SortingMachine: React.FC = () => {
                      // The curve shapes how competent the forces are.
                      const curveAccuracy = 0.5 * (1 - Math.exp(-currentDataScale * 3.3)); 
                      // Scale force based on slider state. At 0, Force=0 (falls naturally/randomly).
-                     const forceMag = curveAccuracy * 0.005; 
+                     const forceMag = curveAccuracy * 0.002; 
 
                      if (body.label === 'apple') {
                          Matter.Body.applyForce(body, body.position, { x: -forceMag, y: 0 });

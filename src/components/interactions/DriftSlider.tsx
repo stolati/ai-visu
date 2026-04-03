@@ -8,7 +8,7 @@ interface DriftSliderProps extends Omit<React.InputHTMLAttributes<HTMLInputEleme
 }
 
 const DriftSlider: React.FC<DriftSliderProps> = ({ min, max, value, onChange, style, ...props }) => {
-  const [isInteracting, setIsInteracting] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   
   // Choose random starting position and drift parameters
   const targetRange = max - min;
@@ -29,6 +29,8 @@ const DriftSlider: React.FC<DriftSliderProps> = ({ min, max, value, onChange, st
   }, [value]);
 
   useEffect(() => {
+    if (hasInteracted) return;
+
     let animationFrameId: number;
     let lastTime = performance.now();
 
@@ -36,32 +38,30 @@ const DriftSlider: React.FC<DriftSliderProps> = ({ min, max, value, onChange, st
       const dt = Math.min((time - lastTime) / 1000, 0.1); // Cap dt to avoid massive jumps on tab focus
       lastTime = time;
 
-      if (!isInteracting) {
-        if (!initializedRef.current) {
-          // First frame: set the parent to the random starting value
-          initializedRef.current = true;
-          const initialValue = Math.round(currentValueRef.current);
-          const event = { target: { value: initialValue.toString() } } as React.ChangeEvent<HTMLInputElement>;
+      if (!initializedRef.current) {
+        // First frame: set the parent to the random starting value
+        initializedRef.current = true;
+        const initialValue = Math.round(currentValueRef.current);
+        const event = { target: { value: initialValue.toString() } } as React.ChangeEvent<HTMLInputElement>;
+        onChangeRef.current(event);
+      } else {
+        // Ongoing drift
+        let nextValue = currentValueRef.current + directionRef.current * speedRef.current * dt;
+        
+        // Bounce off bounds
+        if (nextValue >= max) {
+          nextValue = max;
+          directionRef.current = -1; // Reverse direction
+        } else if (nextValue <= min) {
+          nextValue = min;
+          directionRef.current = 1;
+        }
+        currentValueRef.current = nextValue;
+        
+        const roundedNext = Math.round(nextValue);
+        if (roundedNext !== Math.round(valueRef.current)) {
+          const event = { target: { value: roundedNext.toString() } } as React.ChangeEvent<HTMLInputElement>;
           onChangeRef.current(event);
-        } else {
-          // Ongoing drift
-          let nextValue = currentValueRef.current + directionRef.current * speedRef.current * dt;
-          
-          // Bounce off bounds
-          if (nextValue >= max) {
-            nextValue = max;
-            directionRef.current = -1; // Reverse direction
-          } else if (nextValue <= min) {
-            nextValue = min;
-            directionRef.current = 1;
-          }
-          currentValueRef.current = nextValue;
-          
-          const roundedNext = Math.round(nextValue);
-          if (roundedNext !== Math.round(valueRef.current)) {
-            const event = { target: { value: roundedNext.toString() } } as React.ChangeEvent<HTMLInputElement>;
-            onChangeRef.current(event);
-          }
         }
       }
 
@@ -70,7 +70,7 @@ const DriftSlider: React.FC<DriftSliderProps> = ({ min, max, value, onChange, st
 
     animationFrameId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isInteracting, min, max]);
+  }, [hasInteracted, min, max]);
 
   return (
     <input
@@ -82,11 +82,8 @@ const DriftSlider: React.FC<DriftSliderProps> = ({ min, max, value, onChange, st
         currentValueRef.current = Number(e.target.value);
         onChange(e);
       }}
-      onMouseDown={() => setIsInteracting(true)}
-      onMouseUp={() => setIsInteracting(false)}
-      onMouseLeave={() => setIsInteracting(false)}
-      onTouchStart={() => setIsInteracting(true)}
-      onTouchEnd={() => setIsInteracting(false)}
+      onMouseDown={() => setHasInteracted(true)}
+      onTouchStart={() => setHasInteracted(true)}
       style={{
         ...style
       }}
