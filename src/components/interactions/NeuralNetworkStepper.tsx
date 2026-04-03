@@ -14,11 +14,15 @@ const DUMMY_DATA = {
   apple: {
     name: 'Apple 🍎',
     inputs: [0.9, 0.2, 0.7, 0.9], // Color(Red), Smooth, Irregular Round, High Shine
+    hidden1: [1.24, -0.45, 0.88, 0.12],
+    hidden2: [0.93, -0.15, 1.45, 0.33],
     outputs: [0.98, 0.02] // 98% Apple, 2% Orange
   },
   orange: {
     name: 'Orange 🍊',
     inputs: [0.1, 0.9, 0.95, 0.1], // Color(Orange), Rough, Perfect Round, Low Shine
+    hidden1: [-0.85, 1.34, -0.22, 0.78],
+    hidden2: [-0.64, 0.92, -0.41, 1.12],
     outputs: [0.03, 0.97] // 3% Apple, 97% Orange
   }
 };
@@ -34,6 +38,8 @@ const NeuralNetworkStepper: React.FC = () => {
   const data = {
     name: sliderValue < 50 ? 'Apple-like 🍎' : 'Orange-like 🍊',
     inputs: DUMMY_DATA.apple.inputs.map((val, i) => val + (DUMMY_DATA.orange.inputs[i] - val) * t),
+    hidden1: DUMMY_DATA.apple.hidden1.map((val, i) => val + (DUMMY_DATA.orange.hidden1[i] - val) * t),
+    hidden2: DUMMY_DATA.apple.hidden2.map((val, i) => val + (DUMMY_DATA.orange.hidden2[i] - val) * t),
     outputs: DUMMY_DATA.apple.outputs.map((val, i) => val + (DUMMY_DATA.orange.outputs[i] - val) * t)
   };
 
@@ -140,7 +146,7 @@ const NeuralNetworkStepper: React.FC = () => {
         <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
            {connections.map(conn => {
               const isActiveNodeSequence = step > conn.sourceLayer;
-              const isPulsing = step === conn.sourceLayer + 1; // It pulses during the transition phase it represents
+              const isPulsing = conn.sourceLayer < step; 
 
               const labelX = conn.x1 + (conn.x2 - conn.x1) * 0.35;
               const labelY = conn.y1 + (conn.y2 - conn.y1) * 0.35;
@@ -165,10 +171,16 @@ const NeuralNetworkStepper: React.FC = () => {
                   </text>
                   {isPulsing && (
                     <motion.circle 
+                      key={`pulse-${step}-${conn.id}`}
                       cx={`${conn.x1}%`} cy={`${conn.y1}%`} r="3" fill="#a78bfa"
-                      initial={{ cx: `${conn.x1}%`, cy: `${conn.y1}%` }}
-                      animate={{ cx: `${conn.x2}%`, cy: `${conn.y2}%` }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+                      initial={{ cx: `${conn.x1}%`, cy: `${conn.y1}%`, opacity: 1 }}
+                      animate={{ cx: `${conn.x2}%`, cy: `${conn.y2}%`, opacity: [1, 1, 0] }}
+                      transition={{ 
+                        duration: 0.8, 
+                        ease: 'linear', 
+                        delay: conn.sourceLayer * 0.8,
+                        repeat: 0
+                      }}
                     />
                   )}
                 </g>
@@ -227,6 +239,18 @@ const NeuralNetworkStepper: React.FC = () => {
                  {(isInput && step >= 0) && (
                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                      {(data.inputs[i]).toFixed(2)}
+                   </motion.div>
+                 )}
+
+                 {(layerIdx === 1 && step >= 1) && (
+                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                     {(data.hidden1[i]).toFixed(2)}
+                   </motion.div>
+                 )}
+
+                 {(layerIdx === 2 && step >= 2) && (
+                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                     {(data.hidden2[i]).toFixed(2)}
                    </motion.div>
                  )}
 

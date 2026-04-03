@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 interface ConceptSkeletonProps {
   title: ReactNode;
-  description: string;
+  description: ReactNode;
   visualizationDesc?: string;
   interactiveDesc?: string;
   sandboxComponent?: ReactNode;

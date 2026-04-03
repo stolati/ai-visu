@@ -1,24 +1,23 @@
-import React from 'react';
 import ConceptSkeleton from '../components/ConceptSkeleton';
 import Tooltip from '../components/Tooltip';
-import SortingMachine from '../components/interactions/SortingMachine';
 import NeuralNetworkStepper from '../components/interactions/NeuralNetworkStepper';
+import SortingMachine from '../components/interactions/SortingMachine';
 
 const MachineLearning = () => {
   return (
     <div className="page-transition">
       <h1 className="page-title">Machine Learning</h1>
-      
+
       <ConceptSkeleton 
-        title={<>Explanation of general <Tooltip word="machine learning" text="A subset of AI where systems learn from data." /></>}
-        description="An overview of how computers learn patterns directly from data instead of being explicitly programmed."
-        sandboxComponent={<SortingMachine />}
+        title={<>Neural Network Architecture</>}
+        description={<>Machine Learning models are built from 'artificial neurons'—simple <strong>mathematical functions</strong> that transform inputs into new outputs. While a single neuron is just basic math, networking them together unlocks fascinating <em>emergent properties</em>, allowing them to recognize highly complex patterns. Let's observe how data flows through a fully connected architecture.</>}
+        sandboxComponent={<NeuralNetworkStepper />}
       />
 
       <ConceptSkeleton 
-        title={<>Layers (Neural Network Architecture)</>}
-        description="Structured levels of 'artificial neurons' where information is processed step-by-step. Let's see how our Apple and Orange features flow through a fully connected dual-layer network."
-        sandboxComponent={<NeuralNetworkStepper />}
+        title={<>Training the Model (Data Scale)</>}
+        description="A neural network without data is useless. As we feed it thousands of examples, the network adjusts its internal 'weights' (the connections between neurons) through trial and error. Slide the training data to see how more examples lead to higher accuracy."
+        sandboxComponent={<SortingMachine />}
       />
 
       <ConceptSkeleton 
