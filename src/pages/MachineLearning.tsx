@@ -2,6 +2,7 @@ import ConceptSkeleton from '../components/ConceptSkeleton';
 import Tooltip from '../components/Tooltip';
 import NeuralNetworkStepper from '../components/interactions/NeuralNetworkStepper';
 import SortingMachine from '../components/interactions/SortingMachine';
+import LayerOptimization from '../components/interactions/LayerOptimization';
 
 const MachineLearning = () => {
   return (
@@ -21,10 +22,9 @@ const MachineLearning = () => {
       />
 
       <ConceptSkeleton
-        title={<>Layer Size</>}
-        description="The number of neurons per layer, which dictates how complex the patterns the model can learn are."
-        visualizationDesc="Comparing a narrow pipe (small layer) where only simple shapes can pass through, to a massive multi-lane highway (large layer) identifying intricate details."
-        interactiveDesc="A draggable handle to widen or narrow the pipe, visibly changing the amount and complexity of shapes that successfully pass through."
+        title={<>Network Architecture (Depth & Width)</>}
+        description={<>The size and shape of a neural network determines what it is capable of learning. <br/><br/><strong>Depth (Number of Layers)</strong> allows the network to learn progressively more abstract features. <strong>Width (Layer Size)</strong> allows it to process more features per level.<br/><br/>However, making a network too large for a simple problem leads to <strong>Overfitting</strong>—the model simply memorizes the training data noise instead of learning the underlying patterns, sharply degrading its real-world accuracy.</>}
+        sandboxComponent={<LayerOptimization />}
       />
 
       <ConceptSkeleton
