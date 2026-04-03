@@ -4,7 +4,13 @@ The goal is to explain different aspects of llm to non-coder.
 
 # Machine Learning
 
-- Explanation of general machine learning (something simple).
+## Visualization
+   A model like https://srnghn.medium.com/deep-learning-overview-of-neurons-and-activation-functions-1d98286cf1e4 with 4 entries and 2 outputs. Apple and Oranges is good examples.
+   We could have the entry based on some images examples (get a bunch of images of apple or oranges).
+   We could have :
+    - median color
+
+
   - An overview of how computers learn patterns directly from data instead of being explicitly programmed.
   - *Visualization:* An animation of a machine sorting apples and oranges; initially it guesses randomly, but as it sees more examples, internal dials turn, and it sorts them perfectly.
   - *Interactive:* A slider to control the "number of examples seen", where the sorting becomes visibly more accurate as the slider increases.
@@ -240,4 +246,7 @@ The goal is to explain different aspects of llm to non-coder.
 - Interaction should be usable on a phone, the website should be on a phone.
 - Previous concept shouldn't be re-explained. Create images wrapping the concepts so that we can proceed forward.
 
-# 
+# Style
+
+- Main colors : black, orange, purple
+

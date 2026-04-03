@@ -70,12 +70,12 @@ const SortingMachine: React.FC = () => {
 
         <div style={{ position: 'absolute', bottom: '10px', left: '20%', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '40px', border: '2px solid #ef4444', borderRadius: '4px', borderTop: 'none' }}></div>
-          <span style={{ fontSize: '0.8rem', color: 'white' }}>Apples</span>
+          <span style={{ fontSize: '0.8rem', color: 'white' }}>Apples 🍎</span>
         </div>
 
         <div style={{ position: 'absolute', bottom: '10px', right: '20%', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '40px', border: '2px solid #f97316', borderRadius: '4px', borderTop: 'none' }}></div>
-          <span style={{ fontSize: '0.8rem', color: 'white' }}>Oranges</span>
+          <span style={{ fontSize: '0.8rem', color: 'white' }}>Oranges 🍊</span>
         </div>
 
         {/* Falling Items */}
@@ -104,9 +104,16 @@ const SortingMachine: React.FC = () => {
                 borderRadius: '50%',
                 background: item.type === 'apple' ? '#ef4444' : '#f97316',
                 boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
-                border: '2px solid rgba(255,255,255,0.2)'
+                border: '2px solid rgba(255,255,255,0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1rem',
+                lineHeight: 1
               }}
-            />
+            >
+              {item.type === 'apple' ? '🍎' : '🍊'}
+            </motion.div>
           ))}
         </AnimatePresence>
       </div>

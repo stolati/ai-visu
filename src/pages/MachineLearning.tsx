@@ -2,6 +2,7 @@ import React from 'react';
 import ConceptSkeleton from '../components/ConceptSkeleton';
 import Tooltip from '../components/Tooltip';
 import SortingMachine from '../components/interactions/SortingMachine';
+import NeuralNetworkStepper from '../components/interactions/NeuralNetworkStepper';
 
 const MachineLearning = () => {
   return (
@@ -15,10 +16,9 @@ const MachineLearning = () => {
       />
 
       <ConceptSkeleton 
-        title={<>Layers</>}
-        description="Structured levels of 'artificial neurons' where information is processed step-by-step."
-        visualizationDesc="A physical factory assembly line, where raw data comes in, passes through several checkpoints (layers) that each refine the shape until the final product emerges."
-        interactiveDesc="Toggles to turn individual checkpoints on or off, showing how skipping a refinement step ruins the final product."
+        title={<>Layers (Neural Network Architecture)</>}
+        description="Structured levels of 'artificial neurons' where information is processed step-by-step. Let's see how our Apple and Orange features flow through a fully connected dual-layer network."
+        sandboxComponent={<NeuralNetworkStepper />}
       />
 
       <ConceptSkeleton 
