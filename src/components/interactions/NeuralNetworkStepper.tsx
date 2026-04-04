@@ -31,9 +31,28 @@ const DUMMY_DATA = {
 const inputLabels = ["Hue (Color)", "Roughness", "Roundness", "Shininess"];
 const outputLabels = ["Apple Prob. 🍎", "Orange Prob. 🍊"];
 
-const NeuralNetworkStepper: React.FC = () => {
-  const [sliderValue, setSliderValue] = useState<number>(0);
-  const [step, setStep] = useState<number>(0); // 0=Inputs, 1=Hidden1, 2=Hidden2, 3=Outputs
+interface NeuralNetworkStepperProps {
+  sliderValue?: number;
+  step?: number;
+}
+
+const NeuralNetworkStepper: React.FC<NeuralNetworkStepperProps> = ({ 
+  sliderValue: propSliderValue, 
+  step: propStep 
+}) => {
+  const [localSliderValue, setLocalSliderValue] = useState<number>(0);
+  const [localStep, setLocalStep] = useState<number>(0); // 0=Inputs, 1=Hidden1, 2=Hidden2, 3=Outputs
+
+  const sliderValue = propSliderValue !== undefined ? propSliderValue : localSliderValue;
+  const setSliderValue = (val: number) => setLocalSliderValue(val);
+  const step = propStep !== undefined ? propStep : localStep;
+  const setStep = (val: number | ((prev: number) => number)) => {
+    if (typeof val === 'function') {
+      setLocalStep(val(localStep));
+    } else {
+      setLocalStep(val);
+    }
+  };;
   
   const t = sliderValue / 100;
   const data = {

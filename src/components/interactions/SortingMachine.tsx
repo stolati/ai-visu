@@ -2,8 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import Matter from 'matter-js';
 import DriftSlider from './DriftSlider';
 
-const SortingMachine: React.FC = () => {
-  const [examplesSeen, setExamplesSeen] = useState<number>(0);
+interface SortingMachineProps {
+  examplesSeen?: number;
+}
+
+const SortingMachine: React.FC<SortingMachineProps> = ({ examplesSeen: propExamplesSeen }) => {
+  const [localExamplesSeen, setLocalExamplesSeen] = useState<number>(0);
+  const examplesSeen = propExamplesSeen !== undefined ? propExamplesSeen : localExamplesSeen;
+  const setExamplesSeen = (val: number) => setLocalExamplesSeen(val);
+
   const sceneRef = useRef<HTMLDivElement>(null);
   const examplesRef = useRef(0);
   const lastForceTimeRef = useRef(0);

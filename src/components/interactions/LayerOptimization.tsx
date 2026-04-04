@@ -50,10 +50,33 @@ const Dots = () => (
   </div>
 );
 
-const LayerOptimization = () => {
-  const [numLayers, setNumLayers] = useState(2);
-  const [layerSize, setLayerSize] = useState(16);
+interface LayerOptimizationProps {
+  numLayers?: number;
+  layerSize?: number;
+}
+
+const LayerOptimization = ({ numLayers: propNumLayers, layerSize: propLayerSize }: LayerOptimizationProps) => {
+  const [localNumLayers, setLocalNumLayers] = useState(2);
+  const [localLayerSize, setLocalLayerSize] = useState(16);
   const [isOptimizing, setIsOptimizing] = useState(false);
+
+  const numLayers = propNumLayers !== undefined ? propNumLayers : localNumLayers;
+  const layerSize = propLayerSize !== undefined ? propLayerSize : localLayerSize;
+
+  const setNumLayers = (val: number | ((prev: number) => number)) => {
+    if (typeof val === 'function') {
+      setLocalNumLayers(val(localNumLayers));
+    } else {
+      setLocalNumLayers(val);
+    }
+  };
+  const setLayerSize = (val: number | ((prev: number) => number)) => {
+    if (typeof val === 'function') {
+      setLocalLayerSize(val(localLayerSize));
+    } else {
+      setLocalLayerSize(val);
+    }
+  };
 
   // Surface plot data
   const { xData, yData, zData } = useMemo(() => {
