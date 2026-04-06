@@ -3,6 +3,7 @@ import type { Story } from "@ladle/react";
 import LayerOptimization from "./interactions/LayerOptimization";
 import SortingMachine from "./interactions/SortingMachine";
 import NeuralNetworkStepper from "./interactions/NeuralNetworkStepper";
+import Tokenizer from "./interactions/Tokenizer";
 
 // --- Layer Optimization Story ---
 export const Optimization: Story<{ numLayers: number; layerSize: number }> = ({ numLayers, layerSize }) => (
@@ -56,5 +57,21 @@ NetworkStepper.argTypes = {
   step: {
     control: { type: "select", options: [0, 1, 2, 3] },
     name: "Evaluation Step",
+  },
+};
+
+// --- Tokenization Story ---
+export const Tokenization: Story<{ initialText: string; granularity: 'Word' | 'Subword' | 'Character' }> = ({ initialText, granularity }) => (
+  <Tokenizer initialText={initialText} granularity={granularity} />
+);
+
+Tokenization.args = {
+  initialText: "Unbelievable processing power",
+  granularity: "Subword",
+};
+
+Tokenization.argTypes = {
+  granularity: {
+    control: { type: "select", options: ["Word", "Subword", "Character"] },
   },
 };

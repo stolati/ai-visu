@@ -1,5 +1,4 @@
 import ConceptSkeleton from '../components/ConceptSkeleton';
-import Tooltip from '../components/Tooltip';
 import NeuralNetworkStepper from '../components/interactions/NeuralNetworkStepper';
 import SortingMachine from '../components/interactions/SortingMachine';
 import LayerOptimization from '../components/interactions/LayerOptimization';
@@ -27,19 +26,7 @@ const MachineLearning = () => {
         sandboxComponent={<LayerOptimization />}
       />
 
-      <ConceptSkeleton
-        title={<><Tooltip word="Backpropagation" text="The method used to train networks by working backward from errors to update internal weights." /></>}
-        description="The mechanism the network uses to learn from its mistakes by adjusting its internal math backwards."
-        visualizationDesc="A pinball machine where the ball misses the hole; a signal travels backward along the ball's path, shifting the bumpers slightly to fix the trajectory."
-        interactiveDesc="Let the user click and drag the pinball flippers. If they miss, the user has to click a 'Backpropagate' button to automatically adjust the flippers."
-      />
 
-      <ConceptSkeleton
-        title={<>Model Size Impact</>}
-        description="How increasing the sheer scale of the network alters what it is capable of achieving."
-        visualizationDesc="A blurry pixelated image of a face that progressively gains resolution and lifelike true-color details as the 'model size' counter increases."
-        interactiveDesc="A slider ranging from '1K Parameters' to '1T Parameters' that dynamically sharpens the image and adds vivid color."
-      />
     </div>
   );
 };

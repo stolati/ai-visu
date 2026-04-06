@@ -1,6 +1,7 @@
 import React from 'react';
 import ConceptSkeleton from '../components/ConceptSkeleton';
 import Tooltip from '../components/Tooltip';
+import Tokenizer from '../components/interactions/Tokenizer';
 
 const LLM = () => {
   return (
@@ -30,9 +31,8 @@ const LLM = () => {
 
       <ConceptSkeleton 
         title={<><Tooltip word="What is a token" text="The fundamental piece of a word (a syllable or character) understood by the model."/></>}
-        description="The fundamental building block of text understood by the model."
-        visualizationDesc="A word like 'Unbelievable' getting chopped by a glowing laser into chunks: 'Un', 'believ', 'able' like Lego bricks."
-        interactiveDesc="A text input field where hovering a 'Laser' cursor over a typed sentence chops it into real-time visual token blocks."
+        description="Text is not read by a model word-by-word. Instead, it is chopped into mathematical chunks called tokens—sometimes whole words, sometimes just syllables or prefixes."
+        sandboxComponent={<Tokenizer />}
       />
 
        <ConceptSkeleton 
